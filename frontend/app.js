@@ -2,7 +2,7 @@
    MemoStack — app.js  |  Frontend Logic
    ═══════════════════════════════════════════════════════════════ */
 
-const API = "http://localhost:5000/api";
+const API = "https://memostack-api.onrender.com";
 
 /* ─── State ──────────────────────────────────────────────────── */
 let notes        = [];
