@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MemoStack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ═══ Background Orbs ══════════════════════════════════════════════ -->
+    <div class="bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ═══ Sidebar ══════════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">MemoStack</span>
+        </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <p class="nav-label">Categories</p>
+        <button class="nav-item active" data-category="all">
+          <span class="nav-icon">◈</span> All Notes
+          <span class="nav-badge" id="badge-all">0</span>
+        </button>
+        <button class="nav-item" data-category="general">
+          <span class="nav-icon">◇</span> General
+          <span class="nav-badge" id="badge-general">0</span>
+        </button>
+        <button class="nav-item" data-category="frontend">
+          <span class="nav-icon">◈</span> Frontend
+          <span class="nav-badge" id="badge-frontend">0</span>
+        </button>
+        <button class="nav-item" data-category="backend">
+          <span class="nav-icon">◆</span> Backend
+          <span class="nav-badge" id="badge-backend">0</span>
+        </button>
+        <button class="nav-item" data-category="ideas">
+          <span class="nav-icon">◉</span> Ideas
+          <span class="nav-badge" id="badge-ideas">0</span>
+        </button>
+        <button class="nav-item" data-category="tasks">
+          <span class="nav-icon">▣</span> Tasks
+          <span class="nav-badge" id="badge-tasks">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-stats">
+        <div class="stat-card">
+          <span class="stat-number" id="stat-total">0</span>
+          <span class="stat-label">Total Notes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat-pinned">0</span>
+          <span class="stat-label">Pinned</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══ Main Content ══════════════════════════════════════════════════ -->
+    <main class="main" id="mainContent">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title" id="pageTitle">All Notes</h1>
+          <span class="page-subtitle" id="pageSubtitle">Your thoughts, organized</span>
+        </div>
+        <div class="topbar-right">
+          <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search notes..."
+            />
+          </div>
+          <button class="btn-new" id="btnNew">
+            <span>+</span> New Note
+          </button>
+        </div>
+      </header>
+
+      <!-- Notes Grid -->
+      <section class="notes-section">
+        <div class="notes-grid" id="notesGrid">
+          <!-- Notes rendered by JS -->
+        </div>
+        <div class="empty-state" id="emptyState" style="display:none">
+          <div class="empty-icon">⬡</div>
+          <h3>No notes yet</h3>
+          <p>Click <strong>+ New Note</strong> to get started</p>
+        </div>
+        <div class="loading-state" id="loadingState">
+          <div class="spinner"></div>
+          <p>Loading notes…</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══ Modal Overlay ═════════════════════════════════════════════════ -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">New Note</h2>
+          <button class="modal-close" id="modalClose">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <input
+            type="text"
+            class="field-title"
+            id="fieldTitle"
+            placeholder="Note title…"
+            maxlength="80"
+          />
+
+          <div class="field-meta">
+            <select class="field-select" id="fieldCategory">
+              <option value="general">◇ General</option>
+              <option value="frontend">◈ Frontend</option>
+              <option value="backend">◆ Backend</option>
+              <option value="ideas">◉ Ideas</option>
+              <option value="tasks">▣ Tasks</option>
+            </select>
+
+            <div class="color-picker">
+              <span class="color-label">Color</span>
+              <div class="color-dots" id="colorDots">
+                <button class="color-dot active" data-color="#6C63FF" style="background:#6C63FF"></button>
+                <button class="color-dot" data-color="#FF6584" style="background:#FF6584"></button>
+                <button class="color-dot" data-color="#43D9AD" style="background:#43D9AD"></button>
+                <button class="color-dot" data-color="#FFB347" style="background:#FFB347"></button>
+                <button class="color-dot" data-color="#64B5F6" style="background:#64B5F6"></button>
+                <button class="color-dot" data-color="#E57373" style="background:#E57373"></button>
+              </div>
+            </div>
+          </div>
+
+          <textarea
+            class="field-content"
+            id="fieldContent"
+            placeholder="Write your note here…"
+            rows="8"
+          ></textarea>
+
+          <div class="field-pin">
+            <label class="toggle-wrap">
+              <input type="checkbox" id="fieldPinned" />
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">📌 Pin this note</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-cancel" id="btnCancel">Cancel</button>
+          <button class="btn-save" id="btnSave">Save Note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Toast Notification ════════════════════════════════════════════ -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ═══ Delete Confirm ════════════════════════════════════════════════ -->
+    <div class="confirm-overlay" id="confirmOverlay">
+      <div class="confirm-box">
+        <div class="confirm-icon">⚠</div>
+        <h3>Delete Note?</h3>
+        <p>This action cannot be undone.</p>
+        <div class="confirm-actions">
+          <button class="btn-cancel" id="confirmNo">Keep it</button>
+          <button class="btn-delete-confirm" id="confirmYes">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
